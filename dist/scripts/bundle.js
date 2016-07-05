@@ -52164,11 +52164,11 @@ var React = require('react');
 
 var About = React.createClass({displayName: "About",
 	statics: {
-		willTransitionTo: function(transition, params, query, callback) {
+		onEnter: function(transition, params, query, callback) {
 			console.log('transitioning to about page');
 		},
 
-		willTransitionFrom: function(transition, component) {
+		onLeave: function(transition, component) {
 			console.log('transitioning away from about page');
 		}
 	},
@@ -52176,7 +52176,6 @@ var About = React.createClass({displayName: "About",
 		return (
 			React.createElement("div", null, 
 				React.createElement("h1", null, "About"), 
-				React.createElement("p", null, 
 					"This application uses the following technologies:", 
 					React.createElement("ul", null, 
 						React.createElement("li", null, "React"), 
@@ -52187,7 +52186,6 @@ var About = React.createClass({displayName: "About",
 						React.createElement("li", null, "Browserify"), 
 						React.createElement("li", null, "Bootstrap")
 					)
-				)
 			)
 		); 
 	}
@@ -52200,7 +52198,7 @@ module.exports = About;
 
 var React = require('react');
 var Header = require('./common/header');
-var RouteHandler = require('react-router').RouteHandler;
+var HomePage = require('./homePage');
 $ = jQuery = require('jquery');
 
 var App = React.createClass({displayName: "App",
@@ -52209,7 +52207,7 @@ var App = React.createClass({displayName: "App",
 			React.createElement("div", null, 
 				React.createElement(Header, null), 
 				React.createElement("div", {className: "container-fluid"}, 
-					React.createElement(RouteHandler, null)
+					this.props.children
 				)
 			)
 		);
@@ -52218,7 +52216,7 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App;
 
-},{"./common/header":240,"jquery":2,"react":233,"react-router":34}],238:[function(require,module,exports){
+},{"./common/header":240,"./homePage":241,"jquery":2,"react":233}],238:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -52243,8 +52241,10 @@ var AuthorList = React.createClass({displayName: "AuthorList",
 			React.createElement("div", null, 
 				React.createElement("table", {className: "table"}, 
 					React.createElement("thead", null, 
-						React.createElement("th", null, "ID"), 
-						React.createElement("th", null, "Name")
+						React.createElement("tr", null, 
+							React.createElement("th", null, "ID"), 
+							React.createElement("th", null, "Name")
+						)
 					), 
 					React.createElement("tbody", null, 
 						this.props.authors.map(createAuthorRow, this)
@@ -52301,11 +52301,11 @@ var Header = React.createClass({displayName: "Header",
 		return (
         React.createElement("nav", {className: "navbar navbar-default"}, 
           React.createElement("div", {className: "container-fluid"}, 
-              React.createElement(Link, {to: "app", className: "navbar-brand"}, 
+              React.createElement(Link, {to: "/", className: "navbar-brand"}, 
                 React.createElement("img", {src: "images/pluralsight-logo.png"})
               ), 
               React.createElement("ul", {className: "nav navbar-nav"}, 
-                React.createElement("li", null, React.createElement(Link, {to: "app"}, "Home")), 
+                React.createElement("li", null, React.createElement(Link, {to: "/"}, "Home")), 
                 React.createElement("li", null, React.createElement(Link, {to: "authors"}, "Authors")), 
                 React.createElement("li", null, React.createElement(Link, {to: "about"}, "About"))
               )
@@ -52348,7 +52348,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 			React.createElement("div", null, 
 				React.createElement("h1", null, "Page Not Found"), 
 				React.createElement("p", null, "Whoops! Sorry, there is nothing to see here."), 
-				React.createElement("p", null, React.createElement(Link, {to: "app"}, "Back to Home"))
+				React.createElement("p", null, React.createElement(Link, {to: "/"}, "Back to Home"))
 			)
 		);
 	}
@@ -52362,11 +52362,11 @@ module.exports = NotFoundPage;
 var React = require('react');
 var ReactDom = require('react-dom');
 var Router = require('react-router').Router;
-var browserHistory = require('react-router').browserHistory;
+var history = require('react-router').useRouterHistory;
 var routes = require('./routes');
 
 ReactDom.render(
-	React.createElement(Router, {history: browserHistory}, routes),
+	React.createElement(Router, {history: history}, routes),
 	document.getElementById('app')
 );
 },{"./routes":244,"react":233,"react-dom":4,"react-router":34}],244:[function(require,module,exports){
@@ -52384,14 +52384,15 @@ var AboutPage = require('./components/about/aboutPage');
 var NotFoundPage = require('./components/notFoundPage');
 
 var routes = (
-    React.createElement(Route, {name: "app", path: "/", component: App}, 
+
+    React.createElement(Route, {path: "/", component: App}, 
         React.createElement(IndexRoute, {component: HomePage}), 
-        React.createElement(Route, {name: "authors", path: "authors", component: AuthorsPage}), 
-        React.createElement(Route, {name: "about", path: "authors", component: AboutPage}), 
-        React.createElement(Route, {path: "*", component: NotFoundPage}), 
-        React.createElement(Redirect, {from: "about-us", to: "about"}), 
-        React.createElement(Redirect, {from: "awthurs", to: "authors"})
+        React.createElement(Route, {path: "/about", component: AboutPage}), 
+        React.createElement(Route, {path: "/authors", component: AuthorsPage}), 
+        React.createElement(Redirect, {from: "/about-us", to: "/about"}), 
+        React.createElement(Route, {path: "*", component: NotFoundPage})
     )
+
 );
 
 module.exports = routes;

@@ -4,11 +4,11 @@ var React = require('react');
 
 var About = React.createClass({
 	statics: {
-		willTransitionTo: function(transition, params, query, callback) {
+		onEnter: function(transition, params, query, callback) {
 			console.log('transitioning to about page');
 		},
 
-		willTransitionFrom: function(transition, component) {
+		onLeave: function(transition, component) {
 			console.log('transitioning away from about page');
 		}
 	},
@@ -16,7 +16,6 @@ var About = React.createClass({
 		return (
 			<div>
 				<h1>About</h1>
-				<p>
 					This application uses the following technologies:
 					<ul>
 						<li>React</li>
@@ -27,7 +26,6 @@ var About = React.createClass({
 						<li>Browserify</li>
 						<li>Bootstrap</li>
 					</ul>
-				</p>
 			</div>
 		); 
 	}

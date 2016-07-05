@@ -12,14 +12,15 @@ var AboutPage = require('./components/about/aboutPage');
 var NotFoundPage = require('./components/notFoundPage');
 
 var routes = (
-    <Route name="app" path="/" component={App}>
+
+    <Route path="/" component={App} >
         <IndexRoute component={HomePage} />
-        <Route name="authors" path="authors" component={AuthorsPage} />
-        <Route name="about" path="authors" component={AboutPage} />
+        <Route path="/about" component={AboutPage} />
+        <Route path="/authors" component={AuthorsPage} />
+        <Redirect from="/about-us" to="/about" />
         <Route path="*" component={NotFoundPage} />
-        <Redirect from="about-us" to="about" />
-        <Redirect from="awthurs" to="authors" />
     </Route>
+
 );
 
 module.exports = routes;
