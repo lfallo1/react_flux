@@ -1,8 +1,8 @@
 "use strict";
 
 var React = require('react');
-var Router = require('react-router');
-var Link = Router.Link;
+var Router = require('react-router').Router;
+var Link = require('react-router').Link;
 
 var Header = React.createClass({
 	render: function() {

@@ -1,23 +1,25 @@
 "use strict";
 
 var React = require('react');
+var IndexRoute = require('react-router').IndexRoute;
+var Route = require('react-router').Route;
+var Redirect = require('react-router').Redirect;
 
-var Router = require('react-router');
-var DefaultRoute = Router.DefaultRoute;
-var Route = Router.Route;
-var NotFoundRoute = Router.NotFoundRoute;
-var Redirect = Router.Redirect;
+var App = require('./components/app');
+var HomePage = require('./components/homePage');
+var AuthorsPage = require('./components/authors/authorPage');
+var AboutPage = require('./components/about/aboutPage');
+var NotFoundPage = require('./components/notFoundPage');
 
 var routes = (
-  <Route name="app" path="/" handler={require('./components/app')}>
-    <DefaultRoute handler={require('./components/homePage')} />
-    <Route name="authors" handler={require('./components/authors/authorPage')} />
-    <Route name="about" handler={require('./components/about/aboutPage')} />
-    <NotFoundRoute handler={require('./components/notFoundPage')} />
-    <Redirect from="about-us" to="about" />
-    <Redirect from="awthurs" to="authors" />
-    <Redirect from="about/*" to="about" />
-  </Route>
+    <Route name="app" path="/" component={App}>
+        <IndexRoute component={HomePage} />
+        <Route name="authors" path="authors" component={AuthorsPage} />
+        <Route name="about" path="authors" component={AboutPage} />
+        <Route path="*" component={NotFoundPage} />
+        <Redirect from="about-us" to="about" />
+        <Redirect from="awthurs" to="authors" />
+    </Route>
 );
 
 module.exports = routes;

@@ -1,9 +1,12 @@
 "use strict";
 
 var React = require('react');
-var Router = require('react-router');
+var ReactDom = require('react-dom');
+var Router = require('react-router').Router;
+var browserHistory = require('react-router').browserHistory;
 var routes = require('./routes');
 
-Router.run(routes, function(Handler) {
-	React.render(<Handler/>, document.getElementById('app'));
-});
+ReactDom.render(
+	<Router history={browserHistory}>{routes}</Router>,
+	document.getElementById('app')
+);
